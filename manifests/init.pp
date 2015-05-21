@@ -20,8 +20,20 @@ class cloudwatch_monitoring(
 
   if $http_proxy  {
     $cron_env = ["http_proxy=${http_proxy}","https_proxy=${http_proxy}"]
-  } else { 
+  } else {
     $cron_env = []
+  }
+
+  if $http_proxy  {
+    $aws_env = ["AWS_ACCESS_KEY_ID=${aws_access_key}","AWS_SECRET_ACCESS_KEY=${aws_secret_key}"]
+  } else {
+    $aws_env = []
+  }
+
+  if $ec2_region  {
+    $region_env = ["AWS_DEFAULT_REGION=${ec2_region}"]
+  } else {
+    $region_env = []
   }
   
   group { $group:
@@ -43,10 +55,10 @@ class cloudwatch_monitoring(
   }
   
   class { 'cloudwatch_monitoring::prereqs':
-    username      => $username,
-    aws_access_key => $aws_access_key,
-    aws_secret_key => $aws_secret_key,
-    ec2_region     => $ec2_region,
+  #  username      => $username,
+  #  aws_access_key => $aws_access_key,
+  #  aws_secret_key => $aws_secret_key,
+  #  ec2_region     => $ec2_region,
     require        => File[$home_dir],
   }  
 
@@ -63,7 +75,7 @@ class cloudwatch_monitoring(
     user        => $username,  
     command     => "${home_dir}/aws-mon.sh ${options} --from-cron || logger -t aws-mon \"status=failed exit_code=$?\"",
     minute      => $cron_minute,
-    environment => $cron_env,
+    environment => concat($cron_env,$aws_env,$region_env)
     require     => File["${home_dir}/aws-mon.sh"]
   }
 }
