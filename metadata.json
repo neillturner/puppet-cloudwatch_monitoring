@@ -1,0 +1,41 @@
+{
+  "name": "neillturner/cloudwatch_monitoring",
+  "version": "0.0.1",
+  "source": "https://github.com/neillturner/puppet-cloudwatch_monitoring",
+  "author": "Neill Turner",
+  "license": "Apache-2.0",
+  "summary": "Install Amazon AWS Cloud Watch Monitoring Scripts",
+  "description": "Install Amazon AWS Cloud Watch Monitoring Scripts",
+  "project_page": "https://github.com/neillturner/puppet-cloudwatch_monitoring",
+  "source": "https://github.com/neillturner/puppet-cloudwatch_monitoring.git",
+  "issues_url": "https://github.com/neillturner/puppet-cloudwatch_monitoring/issues",
+  "dependencies": [
+    { "name": "jdowning/awscli" }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [ "5", "6", "7" ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [ "5", "6", "7" ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [ "5", "6", "7" ]
+    },
+    {
+      "operatingsystem": "Scientific",
+      "operatingsystemrelease": [ "5", "6", "7" ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [ "6", "7" ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [ "10.04", "12.04", "14.04" ]
+    }
+  ]
+}
