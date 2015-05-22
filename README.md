@@ -4,13 +4,13 @@
 
 Bash script that reports custom metric data about Linux performance to Amazon CloudWatch
 
-This script is intended for use with Amazon EC2 instances running Linux operating systems. The scripts have been tested on the following Amazon Machine Images (AMIs) for both 32-bit and 64-bit versions:
-
+This bash script will work on:
 * Amazon Linux 2014.3
 * Red Hat Enterprise Linux 6.4
 * Ubuntu Server 13.10
+although the puppet script needs a little bit of work.
 
-The script is written in simple Bash, so you can use it very easily and it uses the aws-cli.
+The script is written in simple Bash, so you can use it very easily and it use the aws-cli.
 The script is from https://github.com/moomindani/aws-mon-linux.
 The script is almost compatible with [Amazon CloudWatch Monitoring Scripts for Linux](http://aws.amazon.com/code/8720044071969977), so you can use almost same options. 
 
