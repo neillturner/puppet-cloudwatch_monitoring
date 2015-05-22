@@ -10,9 +10,11 @@ This script is intended for use with Amazon EC2 instances running Linux operatin
 * Red Hat Enterprise Linux 6.4
 * Ubuntu Server 13.10
 
-The script is written in simple Bash, so you can use it very easily.
+The script is written in simple Bash, so you can use it very easily and it uses the aws-cli.
 The script is from https://github.com/moomindani/aws-mon-linux.
 The script is almost compatible with [Amazon CloudWatch Monitoring Scripts for Linux](http://aws.amazon.com/code/8720044071969977), so you can use almost same options. 
+
+The script also supports running instance behind an http proxy!!!
 
 ## Minimual Usage
 
@@ -26,7 +28,6 @@ The script is almost compatible with [Amazon CloudWatch Monitoring Scripts for L
          home_dir         => '/home/cw_monitoring',
          aws_access_key   => 'MYAWSACCESSKEYID',
          aws_secret_key   => 'MYAWSSECRETACESSKEY',
-         ec2_region       => 'eu-west-1',
          http_proxy       => undef,
          cron_description => 'cloudwatch_monitoring',
          options          => '--disk-space-util --disk-path=/ --disk-space-used  --disk-space-avail --swap-util --swap-used  --mem-util --mem-used --mem-avail',
@@ -100,3 +101,9 @@ Name                       | Description
 --disk-space-used          | Reports allocated disk space in gigabytes.
 --disk-space-avail         | Reports available disk space in gigabytes.
 --all-items                | Reports all items.
+
+## TO DO
+
+Support Multiple disk paths.
+
+Support ubuntu would be very easy.

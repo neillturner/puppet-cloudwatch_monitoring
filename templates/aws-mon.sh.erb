@@ -20,10 +20,10 @@
 SCRIPT_NAME=${0##*/} 
 SCRIPT_VERSION=1.1 
 
-instanceid=`wget -q -O - http://169.254.169.254/latest/meta-data/instance-id`
-azone=`wget -q -O - http://169.254.169.254/latest/meta-data/placement/availability-zone`
+instanceid=`wget --no-proxy -q -O - http://169.254.169.254/latest/meta-data/instance-id`
+azone=`wget --no-proxy -q -O - http://169.254.169.254/latest/meta-data/placement/availability-zone`
 region=${azone/%?/}
-export EC2_REGION=$region
+export AWS_DEFAULT_REGION=$region
 
 
 ########################################
@@ -107,7 +107,7 @@ MEM_AVAIL=0
 SWAP_UTIL=0
 SWAP_USED=0
 SWAP_AVAIL=0
-DISK_PATH=""
+DISK_PATH="/"
 DISK_SPACE_UNITS="gigabytes"
 DISK_SPACE_UNIT_DIV=1
 DISK_SPACE_UTIL=0
@@ -317,9 +317,11 @@ if [ $FROM_CRON -eq 1 ]; then
 fi
 
 # CloudWatch Command Line Interface Option
-CLOUDWATCH_OPTS="--namespace System/Detail/Linux --dimensions InstanceId=$instanceid"
+CLOUDWATCH_OPTS="--namespace System/Linux --dimensions InstanceId=$instanceid"
+CLOUDWATCH_DISK_PATH_OPTS="--namespace System/Linux --dimensions InstanceId=$instanceid,MountPath=$DISK_PATH"
 if [ -n "$PROFILE" ]; then
     CLOUDWATCH_OPTS="$CLOUDWATCH_OPTS --profile $PROFILE"
+    CLOUDWATCH_DISK_PATH_OPTS="$CLOUDWATCH_DISK_PATH_OPTS --profile $PROFILE"
 fi
 
 # Command Output
@@ -550,7 +552,7 @@ if [ $DISK_SPACE_UTIL -eq 1 -a -n "$DISK_PATH" -a $disk_total -gt 0 ]; then
         echo "disk_util:$disk_util"
     fi
     if [ $VERIFY -eq 0 ]; then
-        aws cloudwatch put-metric-data --metric-name "DiskSpaceUtilization" --value "$disk_util" --unit "Percent" $CLOUDWATCH_OPTS
+        aws cloudwatch put-metric-data --metric-name "DiskSpaceUtilization" --value "$disk_util" --unit "Percent" $CLOUDWATCH_DISK_PATH_OPTS
     fi
 fi
 
@@ -560,7 +562,7 @@ if [ $DISK_SPACE_USED -eq 1 -a -n "$DISK_PATH" ]; then
         echo "disk_used:$disk_used"
     fi
     if [ $VERIFY -eq 0 ]; then
-        aws cloudwatch put-metric-data --metric-name "DiskSpaceUsed" --value "$disk_used" --unit "$DISK_SPACE_UNITS" $CLOUDWATCH_OPTS
+        aws cloudwatch put-metric-data --metric-name "DiskSpaceUsed" --value "$disk_used" --unit "$DISK_SPACE_UNITS" $CLOUDWATCH_DISK_PATH_OPTS
     fi
 fi
 
@@ -570,7 +572,7 @@ if [ $DISK_SPACE_AVAIL -eq 1 -a -n "$DISK_PATH" ]; then
         echo "disk_avail:$disk_avail"
     fi
     if [ $VERIFY -eq 0 ]; then
-        aws cloudwatch put-metric-data --metric-name "DiskSpaceAvailable" --value "$disk_avail" --unit "$DISK_SPACE_UNITS" $CLOUDWATCH_OPTS
+        aws cloudwatch put-metric-data --metric-name "DiskSpaceAvailable" --value "$disk_avail" --unit "$DISK_SPACE_UNITS" $CLOUDWATCH_DISK_PATH_OPTS
     fi
 fi
 
