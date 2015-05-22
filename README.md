@@ -8,6 +8,7 @@ This bash script will work on:
 * Amazon Linux 2014.3
 * Red Hat Enterprise Linux 6.4
 * Ubuntu Server 13.10
+
 although the puppet script needs a little bit of work.
 
 The script is written in simple Bash, so you can use it very easily and it use the aws-cli.
@@ -18,11 +19,11 @@ The script also supports running instance behind an http proxy!!!
 
 ## Minimual Usage
 
-      `class { 'cloudwatch_monitoring': }`
+      class { 'cloudwatch_monitoring': }
 
 ## Detailed Usage
 
-      `class { 'cloudwatch_monitoring':
+      class { 'cloudwatch_monitoring':
          username         => 'cw_monitoring',
          group            => 'cw_monitoring',
          home_dir         => '/home/cw_monitoring',
@@ -32,7 +33,7 @@ The script also supports running instance behind an http proxy!!!
          cron_description => 'cloudwatch_monitoring',
          options          => '--disk-space-util --disk-path=/ --disk-space-used  --disk-space-avail --swap-util --swap-used  --mem-util --mem-used --mem-avail',
          cron_minute      => '*/5',
-      }`
+      }
 
 ## AWS authentication
 
@@ -45,8 +46,8 @@ Make sure that the role has permissions to perform the Amazon CloudWatch `PutMet
 
 ### with a key
 
-If your instance does not have a role, you need to specify the aws_access_key and aws_secret_keya key.
-It recommended that you store these encrypted in your puppet repository in hiera using eyaml to encrypt them.
+If your instance does not have a role, you need to specify the `aws_access_key` and `aws_secret_key`.
+It recommended that you store these encrypted in your puppet repository in `hiera` using `eyaml` to encrypt them.
 
 
 ## Metrics of This Script

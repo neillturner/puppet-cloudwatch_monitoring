@@ -48,8 +48,8 @@ class cloudwatch_monitoring(
   }
   
   class { 'cloudwatch_monitoring::prereqs':
-    require        => File[$home_dir],
-  }  
+    require => File[$home_dir],
+  }
 
   file { "${home_dir}/aws-mon.sh":
     ensure  => 'file',
@@ -61,7 +61,7 @@ class cloudwatch_monitoring(
   }
 
   cron  { $cron_description:
-    user        => $username,  
+    user        => $username,
     command     => "${home_dir}/aws-mon.sh ${options} --from-cron || logger -t aws-mon \"status=failed exit_code=$?\"",
     minute      => $cron_minute,
     environment => concat($cron_env,$aws_env),
