@@ -502,8 +502,11 @@ if [ $MEM_AVAIL -eq 1 ]; then
     fi
 fi
 
-if [ $SWAP_UTIL -eq 1 -a $swap_total -gt 0 ]; then
-    swap_util=`expr 100 \* $swap_used / $swap_total`
+if [ $SWAP_UTIL -eq 1 ]; then
+    swap_util=0
+    if [ $swap_total -gt 0 ]; then
+      swap_util=`expr 100 \* $swap_used / $swap_total`
+    fi
     if [ $VERBOSE -eq 1 ]; then
         echo "swap_util:$swap_util"
     fi
