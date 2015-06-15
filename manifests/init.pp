@@ -12,7 +12,7 @@ class cloudwatch_monitoring(
   $aws_secret_key   = undef,
   $http_proxy       = undef,
   $cron_description = 'cloudwatch_monitoring',
-  $options          = '--disk-space-util --disk-path=/ --disk-space-used  --disk-space-avail --swap-util --swap-used  --mem-util --mem-used --mem-avail',
+  $options          = '--disk-space-util --disk-path / --disk-space-used  --disk-space-avail --swap-util --swap-used  --mem-util --mem-used --mem-avail',
   $cron_minute      = '*/5',
 )
 {
