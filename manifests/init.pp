@@ -47,6 +47,15 @@ class cloudwatch_monitoring(
     require => [User[$username], Group[$group]]
   }
   
+  if ! defined(Package['wget']) {
+    package { 'wget':
+      ensure   => 'installed',
+      provider => 'yum',
+      require  => File[$home_dir],
+      before   => Class['cloudwatch_monitoring::prereqs']
+    }
+  }
+
   class { 'cloudwatch_monitoring::prereqs':
     require => File[$home_dir],
   }
