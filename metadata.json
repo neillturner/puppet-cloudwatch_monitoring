@@ -1,6 +1,6 @@
 {
   "name": "neillturner/cloudwatch_monitoring",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "source": "https://github.com/neillturner/puppet-cloudwatch_monitoring",
   "author": "Neill Turner",
   "license": "Apache-2.0",

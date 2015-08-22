@@ -1,6 +1,6 @@
 # == Class: cloudwatch_monitoring
 #
-# classes to run for the cloudwatch monitoring script 
+# classes to run for the cloudwatch monitoring script
 # class parameters can be coded here or resolved
 # via the hiera parameter hierachy
 #
@@ -14,6 +14,7 @@ class cloudwatch_monitoring(
   $cron_description = 'cloudwatch_monitoring',
   $options          = '--disk-space-util --disk-path / --disk-space-used  --disk-space-avail --swap-util --swap-used  --mem-util --mem-used --mem-avail',
   $cron_minute      = '*/5',
+  $manage_awscli    = true,
 )
 {
 
@@ -46,18 +47,10 @@ class cloudwatch_monitoring(
     group   => $group,
     require => [User[$username], Group[$group]]
   }
-  
-  if ! defined(Package['wget']) {
-    package { 'wget':
-      ensure   => 'installed',
-      provider => 'yum',
-      require  => File[$home_dir],
-      before   => Class['cloudwatch_monitoring::prereqs']
-    }
-  }
 
   class { 'cloudwatch_monitoring::prereqs':
-    require => File[$home_dir],
+    manage_awscli => $manage_awscli,
+    require       => File[$home_dir],
   }
 
   file { "${home_dir}/aws-mon.sh":
