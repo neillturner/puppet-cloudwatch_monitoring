@@ -13,10 +13,6 @@ class cloudwatch_monitoring::prereqs(
     class { 'awscli': }
   }
 
-  if ! defined(Package['wget']) {
-    package { 'wget':
-      ensure   => 'installed',
-      provider => 'yum',
-    }
-  }
+  ensure_packages(['wget'])
+
 }
